@@ -31,6 +31,7 @@ public class SandLab
     names[METAL] = "Metal";
     
     //1. Add code to initialize the data member grid with same dimensions
+    grid = new int[numRows][numCols];
     
     display = new SandDisplay("Falling Sand", numRows, numCols, names);
   }
@@ -39,6 +40,7 @@ public class SandLab
   private void locationClicked(int row, int col, int tool)
   {
     //2. Assign the values associated with the parameters to the grid
+	  grid[row][col] = tool;
   }
 
   //copies each element of grid into the display
@@ -46,6 +48,23 @@ public class SandLab
   {
       //Step 3
    //Hint - use a nested for loop
+    for (int row = 0; row < grid.length; row++)
+    {
+    	for(int col = 0; col < grid[0].length; col++)
+    	{
+    		if(grid[row][col] == 0)
+    		{
+    			display.setColor(row, col, Color.BLACK);
+    		}
+    		else if(grid[row][col] == 1)
+    		{
+    			display.setColor(row, col, Color.GRAY);
+    		}
+    		else if(grid[row][col] == 2)
+    		{
+    			display.setColor(row, col, Color.YELLOW);
+    		}
+    	}
     }
   }
 
