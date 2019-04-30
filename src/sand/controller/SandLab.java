@@ -10,6 +10,12 @@ public class SandLab
   //add constants for particle types here
   public static final int EMPTY = 0;
   public static final int METAL = 1;
+  public static final int SAND = 2;
+  public static final int WATER = 3; 
+  
+  public static final int DOWN = 0;
+  public static final int LEFT = 1; 
+  public static final int RIGHT = 2;
   
   //do not add any more fields below
   private int[][] grid;
@@ -25,13 +31,17 @@ public class SandLab
     String[] names;
     // Change this value to add more buttons
     //Step 4,6
-    names = new String[2];
+    names = new String[4];
     // Each value needs a name for the button
     names[EMPTY] = "Empty";
     names[METAL] = "Metal";
+    names[SAND] = "Sand";
+    names[WATER] = "Water";
+    
+    
     
     //1. Add code to initialize the data member grid with same dimensions
-    grid = new int[numRows][numCols];
+    this.grid = new int[numRows][numCols];
     
     display = new SandDisplay("Falling Sand", numRows, numCols, names);
   }
@@ -64,6 +74,10 @@ public class SandLab
     		{
     			display.setColor(row, col, Color.YELLOW);
     		}
+    		else if(grid[row][col] == 3)
+    		{
+    			display.setColor(row, col, Color.BLUE);
+    		}
     	}
     }
   }
@@ -77,7 +91,53 @@ public class SandLab
     //The scalar refers to how big the value could be
     //int someRandom = (int) (Math.random() * scalar)
     //remember that you need to watch for the edges of the array
+    int randRow = (int)(Math.random() * grid.length -1);
+    int randCol = (int)(Math.random() * grid[0].length); 
+    if((randRow + 1 < grid.length)
+    		&& grid[randRow][randCol] == SAND 
+    		&& grid[randRow + 1][randCol] == EMPTY)
+    {
+    	grid[randRow][randCol] = EMPTY;
+    	grid[randRow + 1][randCol] = SAND;
+    }
     
+    if(grid[randRow][randCol] == WATER)
+    {
+    	int randDirection = (int)(Math.random() * 3);
+    	
+    	if((randRow + 1 < grid.length) 
+    			&& (randDirection == DOWN)
+    			&& (grid[randRow + 1][randCol] == EMPTY))
+    	{
+    		grid[randRow][randCol] = EMPTY; 
+    		grid[randRow + 1][randCol] = WATER; 
+    	}
+    	if((randCol - 1 < grid[0].length) 
+    			&& (randDirection == LEFT)
+    			&& (grid[randRow][randCol - 1] == EMPTY) 
+    			&& (grid[randRow +1][randCol]!= EMPTY))
+    	{
+    		grid[randRow][randCol] = EMPTY; 
+    		grid[randRow][randCol - 1] = WATER;
+    	}
+    	if((randRow + 1 < grid.length) 
+    			&& (randDirection == RIGHT) 
+    			&& (randCol == grid[0].length)
+    			&& (grid[randRow + 1][randCol]!= EMPTY))
+		{
+    		grid[randRow][randCol] = EMPTY; 
+    		grid[randRow][randCol + 1] = WATER; 
+    	}
+    	else if((randRow + 1 < grid.length 
+    			&& (randCol + 1 < grid[0].length) 
+    			&& randDirection == RIGHT) 
+    			&& (grid[randRow][randCol + 1] == EMPTY) 
+    			&& (grid[randRow + 1][randCol]!= EMPTY))
+    	{
+    		grid[randRow][randCol] = WATER; 
+    		grid[randRow][randCol + 1] = SAND;
+    	}
+    }
     
   }
   
