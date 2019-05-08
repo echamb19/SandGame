@@ -93,11 +93,19 @@ public class SandLab
     //remember that you need to watch for the edges of the array
     int randRow = (int)(Math.random() * grid.length -1);
     int randCol = (int)(Math.random() * grid[0].length); 
+    
     if((randRow + 1 < grid.length)
     		&& grid[randRow][randCol] == SAND 
     		&& grid[randRow + 1][randCol] == EMPTY)
     {
     	grid[randRow][randCol] = EMPTY;
+    	grid[randRow + 1][randCol] = SAND;
+    }
+    if((randRow + 1 < grid.length) 
+    		&& (grid[randRow][randCol] == SAND)
+    		&& (grid[randRow + 1][randCol] == WATER))
+    {
+    	grid[randRow][randCol] = WATER; 
     	grid[randRow + 1][randCol] = SAND;
     }
     
@@ -112,30 +120,42 @@ public class SandLab
     		grid[randRow][randCol] = EMPTY; 
     		grid[randRow + 1][randCol] = WATER; 
     	}
-    	if((randCol - 1 < grid[0].length) 
-    			&& (randDirection == LEFT)
+    	
+    	if((randCol + 1 < grid[0].length) //NO LONGER CAUSES OOB ERRORS ON THE RIGHT HAND SIDE! BECAUSE OF THE PLUS
+    			&& (randDirection == RIGHT)
     			&& (grid[randRow][randCol - 1] == EMPTY) 
     			&& (grid[randRow +1][randCol]!= EMPTY))
     	{
     		grid[randRow][randCol] = EMPTY; 
     		grid[randRow][randCol - 1] = WATER;
     	}
-    	if((randRow + 1 < grid.length) 
-    			&& (randDirection == RIGHT) 
-    			&& (randCol == grid[0].length)
+    	
+    	if((randCol - 1 > -1) 
+    			&& (randDirection == RIGHT)
+    			&& (grid[randRow][randCol - 1] == EMPTY) 
+    			&& (grid[randRow +1][randCol]!= EMPTY))
+    	{
+    		grid[randRow][randCol] = EMPTY; 
+    		grid[randRow][randCol - 1] = WATER;
+    	}
+    	
+    	if((randCol - 1 > -1) 
+    			&& (randDirection == LEFT) 
+//    			&& (randCol == grid[0].length)
     			&& (grid[randRow + 1][randCol]!= EMPTY))
 		{
     		grid[randRow][randCol] = EMPTY; 
     		grid[randRow][randCol + 1] = WATER; 
     	}
-    	else if((randRow + 1 < grid.length 
+    	
+    	else if((randRow + 1 < grid.length) 
     			&& (randCol + 1 < grid[0].length) 
-    			&& randDirection == RIGHT) 
+    			&& (randDirection == LEFT) 
     			&& (grid[randRow][randCol + 1] == EMPTY) 
     			&& (grid[randRow + 1][randCol]!= EMPTY))
     	{
     		grid[randRow][randCol] = WATER; 
-    		grid[randRow][randCol + 1] = SAND;
+    		grid[randRow][randCol + 1] = EMPTY;
     	}
     }
     
