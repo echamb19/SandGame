@@ -12,6 +12,7 @@ public class SandLab
   public static final int METAL = 1;
   public static final int SAND = 2;
   public static final int WATER = 3; 
+  public static final int SOMETHING = 4; 
   
   public static final int DOWN = 0;
   public static final int LEFT = 1; 
@@ -31,12 +32,13 @@ public class SandLab
     String[] names;
     // Change this value to add more buttons
     //Step 4,6
-    names = new String[4];
+    names = new String[5];
     // Each value needs a name for the button
     names[EMPTY] = "Empty";
     names[METAL] = "Metal";
     names[SAND] = "Sand";
     names[WATER] = "Water";
+    names[SOMETHING] = "Slime"; 
     
     
     
@@ -77,6 +79,10 @@ public class SandLab
     		else if(grid[row][col] == 3)
     		{
     			display.setColor(row, col, Color.BLUE);
+    		}
+    		else if(grid[row][col] == 4)
+    		{
+    			display.setColor(row, col, Color.GREEN);
     		}
     	}
     }
@@ -121,18 +127,18 @@ public class SandLab
     		grid[randRow + 1][randCol] = WATER; 
     	}
     	
-    	if((randCol + 1 < grid[0].length) //NO LONGER CAUSES OOB ERRORS ON THE RIGHT HAND SIDE! BECAUSE OF THE PLUS
+    	if((randCol + 1 < grid[0].length) 
     			&& (randDirection == RIGHT)
-    			&& (grid[randRow][randCol - 1] == EMPTY) 
+    			&& (grid[randRow][randCol + 1] == EMPTY) 
     			&& (grid[randRow +1][randCol]!= EMPTY))
     	{
     		grid[randRow][randCol] = EMPTY; 
-    		grid[randRow][randCol - 1] = WATER;
+    		grid[randRow][randCol + 1] = WATER;
     	}
     	
-    	if((randCol - 1 > -1) 
+    	else if((randCol + 1 < grid[0].length) 
     			&& (randDirection == RIGHT)
-    			&& (grid[randRow][randCol - 1] == EMPTY) 
+    			&& (grid[randRow][randCol +1] == EMPTY) 
     			&& (grid[randRow +1][randCol]!= EMPTY))
     	{
     		grid[randRow][randCol] = EMPTY; 
@@ -141,11 +147,11 @@ public class SandLab
     	
     	if((randCol - 1 > -1) 
     			&& (randDirection == LEFT) 
-//    			&& (randCol == grid[0].length)
+    			&& (randCol == grid[0].length)
     			&& (grid[randRow + 1][randCol]!= EMPTY))
 		{
     		grid[randRow][randCol] = EMPTY; 
-    		grid[randRow][randCol + 1] = WATER; 
+    		grid[randRow][randCol - 1] = WATER; 
     	}
     	
     	else if((randRow + 1 < grid.length) 
